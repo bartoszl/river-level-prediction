@@ -3,7 +3,7 @@ from app import db
 class Station(db.Model):
   __tablename__ = 'stations'
   id = db.Column(db.Integer, primary_key=True)
-  office = db.Column(db.String(64), unique=True)
+  office = db.Column(db.String(64))
   station_name = db.Column(db.String(64), unique=True, index=True)
   location_code = db.Column(db.Integer, unique=True, index=True)
   measurments = db.relationship('Measurment', backref='station')
