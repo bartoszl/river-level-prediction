@@ -26,7 +26,7 @@ JOBS = [
     'func': 'app.jobs:pull_river_level_data',
     'args': [SEPA_RIVER_LEVEL_URLS],
     'trigger': 'interval',
-    'seconds': 60
+    'hours': 12
   }
 
 ]
