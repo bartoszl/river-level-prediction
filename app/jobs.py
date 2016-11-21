@@ -1,7 +1,7 @@
 import requests
 import csv
 from app import app, db
-from app.models import Station, Measurment
+from app.models import RiverStation, RiverLevel
 import os
 
 def test(arg):
@@ -18,8 +18,7 @@ def pull_river_level_data(urls):
 
       data_index = get_measurment_index(l) + 1
       station_id = get_or_create_station(l)
-      print station_id
-      
+
       for m in l[data_index:]:
         add_measurment(m, station_id)
 
@@ -29,18 +28,17 @@ def pull_river_level_data(urls):
 
 
 def add_measurment(m, station_id):
-  if len(m) == 2 and Measurment.query.filter_by(station_id=station_id, date_time=m[0]).first() == None:
-    meas = Measurment()
-    meas.station_id = station_id
-    meas.date_time = m[0]
-    meas.value = m[1]
+  if len(m) == 2 and RiverLevel.query.filter_by(riverstation_id=station_id, sampled_at=m[0]).first() == None:
+    meas = RiverLevel()
+    meas.rivverstation_id = station_id
+    meas.sampled_at = m[0]
+    meas.level = m[1]
     db.session.add(meas)
 
 
 def csv_to_list(r):
   text = r.iter_lines()
   reader = csv.reader(text, delimiter=",")
-
   l = []
   for m in reader:
     l.append(m)
@@ -55,12 +53,12 @@ def get_or_create_station(result):
 
   location_code = get_location_code(result)
 
-  station = Station.query.filter_by(location_code=location_code).first()
+  station = RiverStation.query.filter_by(location_code=location_code).first()
 
   if station == None:
-    station = Station()
-    station.office = get_office(result)
-    station.station_name = get_station_name(result)
+    station = RiverStation()
+    #station.office = get_office(result)
+    station.riverstation_uid = get_station_name(result)
     station.location_code = location_code
     db.session.add(station)
     db.session.commit()
