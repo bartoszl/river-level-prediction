@@ -6,6 +6,10 @@ class RiverStation(db.Model):
   riverstation_id = db.Column(db.Integer, primary_key=True, nullable=False)
   riverstation_uid = db.Column(db.String(64), unique=True, index=True, nullable=False)
   location_code = db.Column(db.Integer, unique=True, index=True)
+  osgr_easting = db.Column(db.Integer, nullable=False)
+  osgr_northing = db.Column(db.Integer, nullable=False)
+  latitude = db.Column(db.Float, nullable=False)
+  longitide = db.Column(db.Float, nullable=False)
   measurments = db.relationship('Measurment', backref='station')
 
   def __repr__(self):
