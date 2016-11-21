@@ -3,6 +3,7 @@ import csv
 from app import app, db
 from app.models import RiverStation, RiverLevel
 import os
+from grid_to_ne import get_ne_lat_long
 
 def test(arg):
   if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
@@ -30,7 +31,7 @@ def pull_river_level_data(urls):
 def add_measurment(m, station_id):
   if len(m) == 2 and RiverLevel.query.filter_by(riverstation_id=station_id, sampled_at=m[0]).first() == None:
     meas = RiverLevel()
-    meas.rivverstation_id = station_id
+    meas.riverstation_id = station_id
     meas.sampled_at = m[0]
     meas.level = m[1]
     db.session.add(meas)
@@ -57,13 +58,15 @@ def get_or_create_station(result):
 
   if station == None:
     station = RiverStation()
-    #station.office = get_office(result)
     station.riverstation_uid = get_station_name(result)
-    station.location_code = location_code
+    e,n,lon,lat = get_coords(station.riverstation_uid)
+    station.osgr_easting = e;
+    station.osgr_northing = n;
+    station.longitide = lon;
+    station.latitude = lat;
     db.session.add(station)
     db.session.commit()
   return station.id
-
 
 def get_location_code(result):
   for row in result:
@@ -79,3 +82,23 @@ def get_station_name(result):
   for row in result:
     if row[0] == 'Station Name':
       return row[1]
+
+def get_coords(station_name):
+    url = 'http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv'
+    r = requests.get(url)
+    l = csv_to_list(r)
+    name_i = station_name_index(l[0])
+    ngr_i = ngr_index(l[0])
+    for row in l:
+        if station_name == l[name_i]:
+            return get_ne_lat_long(l[ngr_i])
+
+def station_name_index(row):
+    for index, field in enumerate(row):
+        if(field=="STATION_NAME"):
+            return index
+
+def ngr_index(row):
+    for index, field in enumerate(row):
+        if(field=="NATIONAL_GRID_REFERENCE"):
+            return index
