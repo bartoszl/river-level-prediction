@@ -1,16 +1,10 @@
 import requests
 import csv
 from app import app, db
-from app.models import RiverStation, RiverLevel
+from app.models import RiverStation, RiverLevel, WeatherStation, CurrentWeather
 import os
 from grid_to_ne import get_ne_lat_long
 import datetime
-
-def test(arg):
-    if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
-        for url in arg:
-            print url
-
 
 def pull_river_level_data(urls):
     if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
@@ -101,3 +95,32 @@ def ngr_index(row):
     for index, field in enumerate(row):
         if(field=="NATIONAL_GRID_REFERENCE"):
             return index
+
+
+####### WEATHER JOB ########
+
+def get_weather():
+    api_key = "32f94d7321018228f4a37b517df35858"
+    url = "http://api.openweathermap.org/data/2.5/weather?q=Glasgow,uk&appid=" + api_key
+    r = requests.get(url)
+    weather = r.json()
+    weather_station_id = get_or_create_weather_station(weather)
+    current_weather = CurrentWeather()
+    current_weather.weatherstation_id = weather_station_id
+    current_weather.precipation = weather['rain']['3h'] if 'rain' in weather else 0
+    current_weather.sampled_at = datetime.datetime.fromtimestamp(
+                                        int(weather['dt'])
+                                    ).strftime('%d/%m/%Y %H:%M:%S')
+    db.session.add(current_weather)
+    db.session.commit()
+
+def get_or_create_weather_station(weather):
+    weather_station = WeatherStation.query.filter_by(weatherstation_uid=weather['name']).first()
+    if not weather_station:
+        weather_station = WeatherStation()
+        weather_station.weatherstation_uid = weather['name']
+        weather_station.longitude = weather['coord']['lon']
+        weather_station.latitude = weather['coord']['lat']
+        db.session.add(weather_station)
+        db.session.commit()
+    return weather_station.weatherstation_id

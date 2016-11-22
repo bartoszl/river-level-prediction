@@ -16,7 +16,12 @@ from app import views, models, jobs
 migrate = Migrate(app, db)
 
 def make_shell_context():
-    return dict(app=app, db=db, Station=models.Station, Measurment=models.Measurment)
+    return dict(app=app,
+                db=db,
+                RiverStation=models.RiverStation,
+                RiverLevel=models.RiverLevel,
+                WeatherStation=models.WeatherStation,
+                CurrentWeather=models.CurrentWeather)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 

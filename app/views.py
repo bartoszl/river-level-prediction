@@ -1,13 +1,13 @@
 from app import app, db
-from jobs import pull_river_level_data
+from jobs import pull_river_level_data, get_weather
 
 @app.route('/')
 @app.route('/index')
 def index():
     return "Hello, World!"
 
-@app.route('/test')
-def test():
+@app.route('/test-river')
+def test_river():
     SEPA_RIVER_LEVEL_URLS = [
       'http://apps.sepa.org.uk/database/riverlevels/133099-SG.csv',
       'http://apps.sepa.org.uk/database/riverlevels/133138-SG.csv',
@@ -22,4 +22,9 @@ def test():
       'http://apps.sepa.org.uk/database/riverlevels/133066-SG.csv'
     ]
     pull_river_level_data(SEPA_RIVER_LEVEL_URLS)
+    return 'done'
+
+@app.route('/test-weather')
+def test_weather():
+    get_weather()
     return 'done'
