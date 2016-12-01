@@ -105,10 +105,15 @@ def get_weather():
     url = "http://api.openweathermap.org/data/2.5/weather?q=Glasgow,uk&appid=" + api_key
     r = requests.get(url)
     weather = r.json()
+    print weather
     weather_station_id = get_or_create_weather_station(weather)
     current_weather = CurrentWeather()
     current_weather.weatherstation_id = weather_station_id
     current_weather.precipation = weather['rain']['3h'] if 'rain' in weather else 0
+    current_weather.temperature = weather['main']['temp']
+    current_weather.wind_speed = weather['wind']['speed']
+    current_weather.wind_direction = weather['wind']['deg']
+    current_weather.description = weather['weather'][0]['description']
     current_weather.sampled_at = datetime.datetime.fromtimestamp(
                                         int(weather['dt'])
                                     ).strftime('%d/%m/%Y %H:%M:%S')
