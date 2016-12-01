@@ -26,8 +26,13 @@ JOBS = [
     'args': [SEPA_RIVER_LEVEL_URLS],
     'trigger': 'interval',
     'hours': 12
+  },
+  {
+    'id': 'current_weahter',
+    'func': 'app.jobs:get_weather',
+    'trigget': 'interval',
+    'minutes': 15
   }
-
 ]
 
 WEATHER_API_KEY = "32f94d7321018228f4a37b517df35858"
