@@ -30,8 +30,8 @@ JOBS = [
   {
     'id': 'current_weahter',
     'func': 'app.jobs:get_weather',
-    'trigget': 'interval',
-    'minutes': 15
+    'trigger': 'interval',
+    'hours': 3
   }
 ]
 
