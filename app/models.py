@@ -39,3 +39,7 @@ class CurrentWeather(db.Model):
     archived_at = db.Column(db.DateTime, default=func.now(), nullable=False)
     sampled_at = db.Column(db.DateTime, nullable=False)
     precipation = db.Column(db.Float, nullable=False)
+    temperature = db.Column(db.Float, nullable=False)
+    wind_speed = db.Column(db.Float, nullable=False)
+    wind_direction = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String(256), nullable=False)
