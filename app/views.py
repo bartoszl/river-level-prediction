@@ -18,8 +18,7 @@ def test_river():
       'http://apps.sepa.org.uk/database/riverlevels/133080-SG.csv',
       'http://apps.sepa.org.uk/database/riverlevels/133119-SG.csv',
       'http://apps.sepa.org.uk/database/riverlevels/133113-SG.csv',
-      'http://apps.sepa.org.uk/database/riverlevels/133114-SG.csv',
-      'http://apps.sepa.org.uk/database/riverlevels/133066-SG.csv'
+      'http://apps.sepa.org.uk/database/riverlevels/133114-SG.csv'
     ]
     pull_river_level_data(SEPA_RIVER_LEVEL_URLS)
     return 'done'

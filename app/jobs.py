@@ -10,13 +10,14 @@ def pull_river_level_data(urls):
     if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         for url in urls:
             r = requests.get(url)
-            l = csv_to_list(r)
-            data_index = get_measurment_index(l) + 1
-            station_id = get_or_create_station(l)
-            for m in l[data_index:]:
-                if m:
-                    add_measurment(m, station_id)
-                    db.session.commit()
+            if r.status_code != 404:
+                l = csv_to_list(r)
+                data_index = get_measurment_index(l) + 1
+                station_id = get_or_create_station(l)
+                for m in l[data_index:]:
+                    if m:
+                        add_measurment(m, station_id)
+                        db.session.commit()
             print 'done: '+url;
 
 

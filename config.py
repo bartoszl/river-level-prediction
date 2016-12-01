@@ -16,8 +16,7 @@ SEPA_RIVER_LEVEL_URLS = [
   'http://apps.sepa.org.uk/database/riverlevels/133080-SG.csv',
   'http://apps.sepa.org.uk/database/riverlevels/133119-SG.csv',
   'http://apps.sepa.org.uk/database/riverlevels/133113-SG.csv',
-  'http://apps.sepa.org.uk/database/riverlevels/133114-SG.csv',
-  'http://apps.sepa.org.uk/database/riverlevels/133066-SG.csv'
+  'http://apps.sepa.org.uk/database/riverlevels/133114-SG.csv'
 ]
 
 JOBS = [
