@@ -31,7 +31,13 @@ JOBS = [
     'id': 'current_weahter',
     'func': 'app.jobs:get_weather',
     'trigger': 'interval',
-    'hours': 3
+    'minutes': 15
+  },
+  {
+    'id': 'test',
+    'func': 'app.jobs:test',
+    'trigger': 'interval',
+    'seconds': 10
   }
 ]
 

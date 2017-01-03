@@ -6,6 +6,9 @@ import os
 from grid_to_ne import get_ne_lat_long
 import datetime
 
+def test():
+    print 'test'
+
 def pull_river_level_data(urls):
     if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         for url in urls:
@@ -18,7 +21,9 @@ def pull_river_level_data(urls):
                     if m:
                         add_measurment(m, station_id)
                         db.session.commit()
-            print 'done: '+url;
+                print "Fetched River Level for :" + station_id
+            else:
+                print "404 Something is wrong with the url: " + url
 
 
 def add_measurment(m, station_id):
@@ -105,7 +110,6 @@ def get_weather():
     url = "http://api.openweathermap.org/data/2.5/weather?q=Glasgow,uk&appid=" + api_key
     r = requests.get(url)
     weather = r.json()
-    print weather
     weather_station_id = get_or_create_weather_station(weather)
     current_weather = CurrentWeather()
     current_weather.weatherstation_id = weather_station_id
@@ -119,6 +123,7 @@ def get_weather():
                                     ).strftime('%d/%m/%Y %H:%M:%S')
     db.session.add(current_weather)
     db.session.commit()
+    print 'Weather fetched ' + current_weather.sampled_at
 
 def get_or_create_weather_station(weather):
     weather_station = WeatherStation.query.filter_by(weatherstation_uid=weather['name']).first()
