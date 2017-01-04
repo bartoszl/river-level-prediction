@@ -21,7 +21,7 @@ def pull_river_level_data(urls):
                     if m:
                         add_measurment(m, station_id)
                         db.session.commit()
-                print "Fetched River Level for :" + station_id
+                print "Fetched River Level for :" + str(station_id)
             else:
                 print "404 Something is wrong with the url: " + url
 
@@ -123,7 +123,7 @@ def get_weather():
                                     ).strftime('%d/%m/%Y %H:%M:%S')
     db.session.add(current_weather)
     db.session.commit()
-    print 'Weather fetched ' + current_weather.sampled_at
+    print 'Weather fetched ' + str(current_weather.sampled_at)
 
 def get_or_create_weather_station(weather):
     weather_station = WeatherStation.query.filter_by(weatherstation_uid=weather['name']).first()
