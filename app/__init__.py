@@ -3,6 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 from flask_apscheduler import APScheduler
+import logging
+
+logging.basicConfig()
 
 app = Flask(__name__)
 app.config.from_object('config')
