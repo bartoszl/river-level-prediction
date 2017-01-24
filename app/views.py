@@ -25,5 +25,6 @@ def test_river():
 
 @app.route('/test-weather')
 def test_weather():
-    get_weather()
+    a = [ 'Glasgow,uk', 'Moffat,uk']
+    get_weather(a)
     return 'done'

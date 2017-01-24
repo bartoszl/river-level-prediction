@@ -16,8 +16,12 @@ SEPA_RIVER_LEVEL_URLS = [
   'http://apps.sepa.org.uk/database/riverlevels/133080-SG.csv',
   'http://apps.sepa.org.uk/database/riverlevels/133119-SG.csv',
   'http://apps.sepa.org.uk/database/riverlevels/133113-SG.csv',
-  'http://apps.sepa.org.uk/database/riverlevels/133114-SG.csv'
+  'http://apps.sepa.org.uk/database/riverlevels/133114-SG.csv',
+  'http://apps.sepa.org.uk/database/riverlevels/504722-SG.csv',
+  'http://apps.sepa.org.uk/database/riverlevels/133182-SG.csv'
 ]
+
+CITIES = [ 'Glasgow,uk', 'Moffat,uk']
 
 JOBS = [
   {
@@ -30,6 +34,7 @@ JOBS = [
   {
     'id': 'current_weahter',
     'func': 'app.jobs:get_weather',
+    'args': [CITIES],
     'trigger': 'interval',
     'minutes': 15
   }
